@@ -1,0 +1,15 @@
+{
+  "name": "flyway-migrator",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Flyway migration management tool",
+  "scripts": {
+    "install:all": "npm --prefix frontend ci && npm --prefix backend ci",
+    "build": "npm --prefix frontend run build && npm --prefix backend run build",
+    "test": "npm --prefix frontend run test && npm --prefix backend run test",
+    "lint": "npm --prefix frontend run lint && npm --prefix backend run lint",
+    "lint:fix": "npm --prefix frontend run lint:fix && npm --prefix backend run lint:fix",
+    "typecheck": "npm --prefix frontend exec tsc -- --noEmit && npm --prefix backend exec tsc -- --noEmit",
+    "ci": "npm run typecheck && npm run lint && npm run test && npm run build"
+  }
+}
