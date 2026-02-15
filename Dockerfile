@@ -30,8 +30,9 @@ RUN --mount=type=cache,target=/root/.npm cd backend && npm ci --omit=dev
 COPY --from=backend-build /app/backend/dist ./backend/dist
 COPY --from=backend-build /app/shared ../shared
 
-# Copy built frontend into backend's expected static directory
-COPY --from=frontend-build /app/frontend/dist ./frontend/dist
+# Copy built frontend where the backend code expects it
+# __dirname = /app/backend/dist/backend/src/, code does ../../frontend/dist
+COPY --from=frontend-build /app/frontend/dist ./backend/dist/frontend/dist
 
 ENV NODE_ENV=production
 ENV PORT=3000
@@ -41,4 +42,4 @@ EXPOSE 3000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
   CMD wget --no-verbose --tries=1 --spider http://localhost:3000/ || exit 1
 
-CMD ["node", "backend/dist/index.js"]
+CMD ["node", "backend/dist/backend/src/index.js"]
